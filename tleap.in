@@ -1,0 +1,19 @@
+source leaprc.protein.ff19SB
+source leaprc.gaff2
+loadoff THS.lib
+loadamberparams THS.frcmod 
+source leaprc.water.opc
+HIF = loadpdb Bound2.pdb
+check HIF
+solvateOct HIF OPCBOX 12
+addions2 HIF Cl- 3
+addions2 HIF Na+ 7
+check HIF
+saveamberparm HIF BOUND.prmtop BOUND.inpcrd
+savepdb HIF Bound_solv.pdb
+quit
+
+
+
+
+

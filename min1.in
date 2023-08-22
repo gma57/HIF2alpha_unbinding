@@ -1,0 +1,20 @@
+Step 1 Unrestrained minimization
+ &cntrl
+  imin   = 1,
+  irest   = 0,
+  ntx    = 1,
+  ntmin   = 1,
+  maxcyc  = 2000,
+  ncyc   = 500,
+  ntr    = 0,
+  ntb    = 1,
+  ntf    = 1,
+  ntc    = 1,
+  cut    = 10.0,
+  ntpr   = 1,
+  ntxo   = 2,
+  ntwr   = 2000,
+  ioutfm  = 1,
+  ntwx   = 10,
+  iwrap   = 1,
+ &end
