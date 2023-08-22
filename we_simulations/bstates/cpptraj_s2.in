@@ -1,0 +1,64 @@
+parm ired.prmtop
+trajin  ired.nc
+vector v1 :7@CG ired :7@CD1
+vector v2 :7@CG ired :7@CD2
+vector v3 :11@CB ired :11@CG2
+vector v4 :13@CG ired :13@CD1
+vector v5 :13@CG ired :13@CD2
+vector v6 :18@SD ired :18@CE
+vector v7 :20@SD ired :20@CE
+vector v8 :23@CB ired :23@CG2
+vector v9 :29@CB ired :29@CG2
+vector v10 :29@CG1 ired :29@CD1
+vector v11 :30@CB ired :30@CG2
+vector v12 :32@CG ired :32@CD1
+vector v13 :32@CG ired :32@CD2
+vector v14 :33@CB ired :33@CG2
+vector v15 :33@CG1 ired :33@CD1
+vector v16 :40@CG ired :40@CD1
+vector v17 :40@CG ired :40@CD2
+vector v18 :41@CG ired :41@CD1
+vector v19 :41@CG ired :41@CD2
+vector v20 :45@CA ired :45@CB
+vector v21 :51@CA ired :51@CB
+vector v22 :52@CG ired :52@CD1
+vector v23 :52@CG ired :52@CD2
+vector v24 :57@SD ired :57@CE
+vector v25 :58@CB ired :58@CG2
+vector v26 :64@CG ired :64@CD1
+vector v27 :64@CG ired :64@CD2
+vector v28 :66@CB ired :66@CG2
+vector v29 :70@CB ired :70@CG1
+vector v30 :70@CB ired :70@CG2
+vector v31 :71@CB ired :71@CG1
+vector v32 :71@CB ired :71@CG2
+vector v33 :77@SD ired :77@CE
+vector v34 :78@CG ired :78@CD1
+vector v35 :78@CG ired :78@CD2
+vector v36 :79@CA ired :79@CB
+vector v37 :85@CB ired :85@CG1
+vector v38 :85@CB ired :85@CG2
+vector v39 :87@CG ired :87@CD1
+vector v40 :87@CG ired :87@CD2
+vector v41 :89@CB ired :89@CG2
+vector v42 :92@CB ired :92@CG2
+vector v43 :93@CB ired :93@CG1
+vector v44 :93@CB ired :93@CG2
+vector v45 :94@CB ired :94@CG2
+vector v46 :94@CG1 ired :94@CD1
+vector v47 :100@CG ired :100@CD1
+vector v48 :100@CG ired :100@CD2
+vector v49 :105@CB ired :105@CG2
+vector v50 :105@CG1 ired :105@CD1
+vector v51 :106@SD ired :106@CE
+vector v52 :108@CB ired :108@CG1
+vector v53 :108@CB ired :108@CG2
+vector v54 :111@CB ired :111@CG1
+vector v55 :111@CB ired :111@CG2
+vector v56 :112@CG ired :112@CD1
+vector v57 :112@CG ired :112@CD2
+vector v58 :115@CB ired :115@CG2
+vector v59 :115@CG1 ired :115@CD1
+matrix ired name matired order 2
+diagmatrix matired vecs 59 name ired.vec
+ired order 2 modes ired.vec orderparamfile iredout_s2 out iredout
