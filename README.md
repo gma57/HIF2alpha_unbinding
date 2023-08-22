@@ -8,7 +8,7 @@ Hypoxia-inducible factors (HIFs) are heterodimeric transcription factors that ca
 ### Copyright 
 
 ### TODO 
-- [] Create image for the README.md
-- [] Description of the repository 
-- [] Add analysis folder with the notebooks 
+- Create image for the README.md
+- Description of the repository 
+- Add analysis folder with the notebooks 
 
