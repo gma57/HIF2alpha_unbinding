@@ -8,6 +8,7 @@ Hypoxia-inducible factors (HIFs) are heterodimeric transcription factors that ca
 ### Copyright 
 
 ### TODO 
+- Marion please update the modeling repo with your tleap script (I think you have the script for the holo structure)
 - Create image for the README.md
 - Description of the repository 
 - Add analysis folder with the notebooks 
