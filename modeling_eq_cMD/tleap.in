@@ -3,14 +3,14 @@ source leaprc.gaff2
 loadoff THS.lib
 loadamberparams THS.frcmod 
 source leaprc.water.opc
-HIF = loadpdb Bound2.pdb
+HIF = loadpdb bound.pdb
 check HIF
-solvateOct HIF OPCBOX 12
-addions2 HIF Cl- 3
-addions2 HIF Na+ 7
+solvateOct HIF OPCBOX 18
+addions2 HIF Cl- 5
+addions2 HIF Na+ 9
 check HIF
-saveamberparm HIF BOUND.prmtop BOUND.inpcrd
-savepdb HIF Bound_solv.pdb
+saveamberparm HIF bound_new.prmtop bound_new.inpcrd
+savepdb HIF bound_new.pdb
 quit
 
 
