@@ -1,4 +1,4 @@
-![HIF2alpha](pathclass.png)
+![HIF2alpha](fig1_test.png)
 # How does a ligand exit from a buried receptor cavity? Atomistic simulations of unbinding pathways with rigorous kinetics
 Marion L. Silvestrini *, Riccardo Solazzo *, Matteo Masetti, Kevin H. Gardner, Lillian T. Chong
 
