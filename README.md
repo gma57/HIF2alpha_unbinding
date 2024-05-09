@@ -49,6 +49,26 @@ $ pip install westpa
 In order to run WESTPA in your computing environment, the environment must be set up by properly configuring the env.sh script. Please edit the included script according to your needs. Assistance with this, including examples for various computing environments, can be found on the WESTPA wiki: https://github.com/westpa/westpa/wiki.
 
 ## Step 1: Generating Basis States
+Before running a WE simulation we need to generate basis states. To do that, we are going to run conventional MD simulations of the solvated ligand-bound HIF2alpha system. All the files needed for this process are in the modeling_eq_cMD folder. 
+
+First, we use tleap to generate a solvated structure based on the ligand-bound crystal structure using the selected force fields (OPC/ff19sb). To do this, open the terminal in this folder and type the following command:
+
+~~~bash
+$ tleap -f tleap.in >tleap.out
+~~~
+Check the output file to ensure there were no errors in execution. This command should create three files: bound_new.inpcrd, bound_new.prmtop, and bound_new.pdb. Verify that the pdb file has the correct connectivity through a program such as vmd.
+
+If everything looks good, then it is time to run the equilibration. This is best done on an HPC cluster using the run_equil.slurm script:
+~~~bash
+$ sbatch run_equil.slurm
+~~~
+This will automatically run through four equilibration steps: minimization, heating, pressurizing, and equilibration. When they are finished, check the output to be sure it ran correctly. There should be 4 new folders in the directory with a .nc, .nfo, .out, and .rst in each.
+
+Next, edit run.slurm to your specifications. prodmanager.sh will use this script to run five 100 ns production runs automatically:
+~~~bash
+$ bash prodmanager.sh
+~~~
+The production runs may take a day or two to complete. When they are done, 
 
 ## Step 2: Running WE
 
