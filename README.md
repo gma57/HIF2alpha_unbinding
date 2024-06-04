@@ -9,9 +9,9 @@ Hypoxia-inducible factors (HIFs) are heterodimeric transcription factors that ca
 
 # Weighted Ensemble simulation of the HIF2alpha PAS-B ligand unbinding process
 
-Authors: Riccardo Solazzo, Gessica Adornato
+Authors: Gessica Adornato, Riccardo Solazzo
 
-E-mail: riccardo.solazzo@phys.chem.ethz.ch
+E-mail: gma57@pitt.edu, riccardo.solazzo@phys.chem.ethz.ch
 
 ## Introduction
 The purpose of this notebook and the associated github repository is to demonstrate the simulation of the unbinding process of THS-017 from HIF2alpha using the Weighted Ensemble (WE) algorithm in WESTPA 2.0. By executing the provided code, users can replicate the results outlined in the associated publication (DOI: insert DOI).
@@ -83,102 +83,87 @@ Move the reference.pdb file produced into the we_simulations/common_files folder
 At this point, you are ready to run a new WE simulation!
 
 ## Step 2: Running WE
+For this section you can either use the set of files derived using step 1, or use the files in the we_simulations folder as-is.
 
-
-~~~bash
-# Execute the env.sh script to set up the environment variables.
-$ ./env.sh
-# Execute the init.sh script to initialize the weighted ensemble simulation.
-$ ./init.sh
-~~~
 #### Submitting jobs on HPC
-
-The following command can be used for running the simulation on your local machine:
-
-~~~bash
-$ ./run.sh
-~~~
-
-In order to run the simulation on a cluster (recommended) a slurm script needs to be created. Once you requested the proper amount of computational resources the simulation can be submitted running the following command:
+In order to run the simulation on a cluster (recommended), the runwe2.slurm script should be modified according to the available computational resources. Then, the simulation can be started by running the following command from the we_simulations folder:
 
 ~~~bash
 $ sbatch runwe2.slurm
 ~~~
 
-### Simulation Monitoring
+Remember to comment out the line sourcing init.sh when continuing a paused simulation.
 
-#### Log file
-The easiest way to check the status of the simulation is to read the log file generated during the simulation.
+The following is an easy way to check the status of an ongoing simulation:
 
 ~~~bash
 $ tail -n 50 west.log
 ~~~
 
-#### WEDAP
-To have an idea of the amount of configuration space explored so far it can be useful to visualize the probability distribution of your data. To do so we will use wedap a library written by Darian Yang.
+## Step 3: Simulation Analysis
 
-In the following cell we will visualize the 2D probability distribution of the single components of the multidimensional progress coordinate, the points are colored according to the negative logarithm of the weights (prior to reweight).
+### WEDAP
+To have an idea of the amount of configuration space explored so far, it can be useful to visualize the probability distribution of your data. To do so, we will use wedap a library written by Darian Yang. Type the following in the terminal to install WEDAP:
 
 ~~~bash
 # Install WEDAP in your conda environment
 $ pip install wedap
 ~~~
 
+The following code will allow us to visualize the 2D probability distribution of a single component of the multidimensional progress coordinate. The three components that form the progress coordinate are 1) solvent accessible surface area (sasa), 2) root mean squared deviation (rmsd), and 3) distance between the ligand and the protein. The specific progress coordinate can be specified by using the argument Xindex=i, where sasa, rmsd, and distance are 0, 1, and 2, respectively. The points in the graph are colored according to the negative logarithm of the weights (prior to reweighting).
+
+For example, the following code will generate a probability distribution for the rmsd of a sample simulation after a little over 300 iterations:
+
 ~~~python
 #Import WEDAP to calculate the 2D probability distributions and visualize the results.
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np  
 import wedap
 
-wedap.H5_Plot(h5="../../../../HIF/HIF2alpha_unbinding/west.h5", data_type="evolution").plot()
-plt.xlabel("Progress Coordinate")
+wedap.H5_Plot(h5="west.h5", data_type="evolution", Xname='pcoord', Xindex=1).plot()
+plt.xlabel("RMSD")
 plt.ylabel("WE Iteration")
 plt.show()
 ~~~
+![rmsd](rmsd.png)
 
-It can be useful to plot the first and the second dimensions of the progress coordinate one against the other. In this way you will get an idea of the correlation between two fundamental events for the unbinding mechanism of THS-017: (1) The opening of the buried pocket and (2) the detachment of the ligand from the protein.
+It can be useful to plot different dimensions of the progress coordinate against each other. In this way, you will get an idea of the correlation between two fundamental events of the unbinding mechanism of THS-017. For example, plotting SASA against RMSD can reveal the correlation between the opening of the buried pocket and the detachment of the ligand from the protein. This can be accomplished by running the following code. The figure shows results from a sample simulation after just over 300 iterations.
 
 ~~~python
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np  
 import wedap
 
-#wedap.H5_Plot(h5="your_west.h5", data_type="average", Xindex=0, Yindex=1).plot()
-wedap.H5_Plot(h5="../../../../HIF/HIF2alpha_unbinding/west.h5", data_type="average", Xindex=0, Yname='IRMSD').plot()
-plt.xlabel("Progress Coordinate")
-#plt.ylabel("Second Dimension of the progress coordinate")
-plt.ylabel("Auxiliary Dataset")
+wedap.H5_Plot(h5="west.h5", data_type="average", Xname='pcoord', Xindex=0, Yname='pcoord', Yindex=1).plot()
+plt.xlabel("SASA")
+plt.ylabel("RMSD")
 plt.show()
 ~~~
-
-## Step 3: Simulation Analysis
+![2dplot](2dsasarmsd.png)
 
 ### Checking convergence to steady state
-A WE simulation is converged when it relaxes to a steady state flux. In order to visualize the flux as a function of the molecular time we will need to run the w_ipa command.
-You will need to edit the w_ipa settings in the west.cfg file, then you can run the w_ipa command
+A WE simulation is converged when it relaxes to a steady state flux. In order to visualize the flux as a function of the molecular time, we will need to run the w_ipa command:
 
 ~~~bash
-$ cd ../../HIF/HIF2alpha_unbinding/
 $ w_ipa -ra
 ~~~
 
-The ANALYSIS folder contains the direct.h5 which can be used to visualize the conditional probability fulx.
+This command creates a folder called ANALYSISi1000. This folder contains a file called direct.h5, which will contain the information needed to visualize the conditional probability fulx.
 
-Finally we can plot the results.
+Finally we can plot the results using the following script:
 
 ~~~python
 import numpy as np
 import matplotlib.pyplot as plt
 import h5py
 
-direct = h5py.File('../../../../HIF/HIF2alpha_unbinding/ANALYSIS/OVERALL/direct.h5', 'r')
+direct = h5py.File('direct.h5', 'r')
 
-flux_AB=direct['conditional_flux_evolution'][:,0,1]['expected']
 flux_A=direct['conditional_flux_evolution'][:,0,1]['expected']/1e-10
-
 
 plt.plot(flux_A)
 plt.xlabel('WE iteration')
 plt.ylabel('k$_{off}$ ($s^{-1}$)')
 plt.yscale('log')
+plt.show()
 ~~~
