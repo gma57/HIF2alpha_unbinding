@@ -25,11 +25,10 @@ The recommended way to use this guide is to enter the commands directly into a L
 - [Step 1: Generating basis states](#step-1-generating-basis-states)
 - [Step 2: Running WE](#step-2-running-we)
     - [Submitting jobs on HPC ](#submitting-jobs-on-hpc)
-    - [Simulation monitoring](#simulation-monitoring)
-        - [Log file](#log-file)
-        - [WEDAP](#wedap)
 - [Step 3: Simulation analysis](#step-3-simulation-analysis)
+    - [WEDAP](#wedap)
     - [Checking convergence to steady state](#checking-convergence-to-steady-state)
+    - [Accelerating convergence to steady state](#accelerating-convergence-to-steady-state)
 
 ## Environment
 
@@ -100,19 +99,21 @@ The following is an easy way to check the status of an ongoing simulation:
 $ tail -n 50 west.log
 ~~~
 
+It is recommended to monitor the simulation every 50-100 iterations for convergence using the tools detailed in the next section.
+
 ## Step 3: Simulation Analysis
 
 ### WEDAP
-To have an idea of the amount of configuration space explored so far, it can be useful to visualize the probability distribution of your data. To do so, we will use wedap a library written by Darian Yang. Type the following in the terminal to install WEDAP:
+To get an idea of the amount of configurational space explored so far, it can be useful to visualize the probability distribution of your data. To do so, we will use wedap a library written by Darian Yang. Type the following in the terminal to install WEDAP:
 
 ~~~bash
 # Install WEDAP in your conda environment
 $ pip install wedap
 ~~~
 
-The following code will allow us to visualize the 2D probability distribution of a single component of the multidimensional progress coordinate. The three components that form the progress coordinate are 1) solvent accessible surface area (sasa), 2) root mean squared deviation (rmsd), and 3) distance between the ligand and the protein. The specific progress coordinate can be specified by using the argument Xindex=i, where sasa, rmsd, and distance are 0, 1, and 2, respectively. The points in the graph are colored according to the negative logarithm of the weights (prior to reweighting).
+The following code will allow us to visualize the 2D probability distribution of a single component of the multidimensional progress coordinate. The three components that form the progress coordinate are 1) solvent accessible surface area (SASA), 2) root mean squared deviation (RMSD), and 3) distance between the ligand and the protein. The specific progress coordinate can be specified by using the argument Xindex=i, where SASA, RMSD, and distance are 0, 1, and 2, respectively. The points in the graph are colored according to the negative logarithm of the weight.
 
-For example, the following code will generate a probability distribution for the rmsd of a sample simulation after a little over 300 iterations:
+For example, the following code will generate a probability distribution for the RMSD of a sample simulation after a little over 300 iterations:
 
 ~~~python
 #Import WEDAP to calculate the 2D probability distributions and visualize the results.
@@ -127,7 +128,7 @@ plt.show()
 ~~~
 ![rmsd](rmsd.png)
 
-It can be useful to plot different dimensions of the progress coordinate against each other. In this way, you will get an idea of the correlation between two fundamental events of the unbinding mechanism of THS-017. For example, plotting SASA against RMSD can reveal the correlation between the opening of the buried pocket and the detachment of the ligand from the protein. This can be accomplished by running the following code. The figure shows results from a sample simulation after just over 300 iterations.
+It can be useful to plot different dimensions of the progress coordinate against each other. In this way, you can get an idea of the correlation between two fundamental events of the unbinding mechanism of THS-017. For example, plotting SASA against RMSD can reveal the correlation between the opening of the buried pocket and the detachment of the ligand from the protein. This can be accomplished by running the following code. The figure shows results from a sample simulation after just over 300 iterations.
 
 ~~~python
 import matplotlib.pyplot as plt
@@ -167,3 +168,16 @@ plt.ylabel('k$_{off}$ ($s^{-1}$)')
 plt.yscale('log')
 plt.show()
 ~~~
+
+### Accelerating convergence to steady state
+
+Obtaining steady state distributions using weighted ensemble can be very time consuming for a complex process like protein-ligand unbinding. In these cases, it can be useful to redistribute the weights using the Weighted Ensemble Steady State plugin (WESS). This is appropriate when the flux has been constant for at least 100 iterations. To implement WESS reweighting, use the following steps:
+
+1. Open the west.cfg file.
+2. Replace the word 'false' with the word 'true' in lines 88 and 89, in the WESS plugin section.
+3. Set the value of 'max_total_iterations' (line 60 of west.cfg) to one.
+4. Run a weighted ensemble simulation.
+5. Replace the word 'true' with the word 'false' in lines 88 and 89.
+6. Run 50-100 WE iterations with adjusted weights to relax the system to steady state.
+7. Repeat steps 2 to 6 until the simulation converges.
+
