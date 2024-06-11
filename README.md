@@ -175,9 +175,9 @@ Obtaining steady state distributions using weighted ensemble can be very time co
 
 1. Open the west.cfg file.
 2. Replace the word 'false' with the word 'true' in lines 88 and 89, in the WESS plugin section.
-3. Set the value of 'max_total_iterations' (line 60 of west.cfg) to one.
+3. Set the value of 'max_total_iterations' (line 60 of west.cfg) TWO GREATER THAN the current number of iterations. E.g., if the simulation just finished iteration 400, set max_total_iterations to 402.
 4. Run a weighted ensemble simulation.
-5. Replace the word 'true' with the word 'false' in lines 88 and 89.
+5. Replace the word 'true' with the word 'false' in lines 88 and 89 and set max_total_iterations to run for an additional 50-100 iterations.
 6. Run 50-100 WE iterations with adjusted weights to relax the system to steady state.
 7. Repeat steps 2 to 6 until the simulation converges.
 
