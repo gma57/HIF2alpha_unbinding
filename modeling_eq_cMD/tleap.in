@@ -1,7 +1,7 @@
 source leaprc.protein.ff19SB
 source leaprc.gaff2
 loadoff THS.lib
-loadamberparams THS.frcmod 
+loadAmberParams THS.frcmod 
 source leaprc.water.opc
 HIF = loadpdb bound.pdb
 check HIF

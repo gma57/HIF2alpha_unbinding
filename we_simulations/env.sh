@@ -1,10 +1,11 @@
 # Modify to taste
 
 # Load Modules
-conda activate westpa-dev
+source ~/.bashrc
+conda activate westpa-2022.04
 
 module purge
-module load gcc/8.2.0 openmpi/4.0.3 amber/22-beta
+module load gcc/8.2.0 openmpi/4.0.3 amber/22
 
 echo $AMBERHOME
 echo $AMBERHOME/bin/pmemd.cuda

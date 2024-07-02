@@ -1,0 +1,5 @@
+parm bound_new.prmtop
+trajin 4_eq/4_eq3.rst
+trajout reference.pdb include_ep
+go
+quit
