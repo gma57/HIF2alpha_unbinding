@@ -5,6 +5,8 @@ Marion L. Silvestrini *, Riccardo Solazzo *, Matteo Masetti, Kevin H. Gardner, L
 ## Abstract
 Hypoxia-inducible factors (HIFs) are heterodimeric transcription factors that can promote cancer growth. The development of small-molecule drugs that can inhibit the formation of the dimer is therefore a promising route to the treatment of cancer. Here, we focus on the relevant domain of the protein, the HIF2α PAS-B domain, which contains a preformed, buried cavity that binds  artificial small-molecule ligands that allosterically perturb the formation of the HIF heterodimer.  We examine how a representative ligand (THS-017) dissociates and re-enters the buried cavity using atomistic simulations. To enable these simulations, we applied the weighted ensemble path sampling strategy, which can generate continuous pathways with rigorous kinetics (i.e., rate constants) in orders of magnitude less computing time compared to standard simulations. Results reveal a diverse set of pathways for both the ligand unbinding and rebinding processes with estimated rate constants and methyl order parameters that are consistent with experiment. 
 
+Please click here to view representative pathway trajectories: [![Pathway Trajectories](https://zenodo.org/badge/DOI/10.5281/zenodo.13737480.svg)](https://doi.org/10.5281/zenodo.13737480)
+
 ### Copyright 
 
 # Weighted Ensemble simulation of the HIF2alpha PAS-B ligand unbinding process
